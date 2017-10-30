@@ -42,7 +42,38 @@ void Fraction::simplify(){
        numerator = numerator / factor;
        denominator = denominator / factor;
 }
- 
+
+bool Fraction::operator==(const Fraction & f)const{
+	int coVal = numerator * f.denominator;
+	int paramVal = f.numerator * denominator;
+	return (coVal == paramVal);
+}
+bool Fraction::operator!=(const Fraction & f)const{
+	int coVal = numerator * f.denominator;
+	int paramVal =  f.numerator * denominator;
+	return(coVal != paramVal); 
+}
+bool Fraction::operator<(const Fraction & f)const{
+	int coVal = numerator * f.denominator;
+	int paramVal =  f.numerator * denominator;
+	return(coVal < paramVal);
+}
+bool Fraction::operator<=(const Fraction & f)const{
+	int coVal = numerator * f.denominator;
+	int paramVal =  f.numerator * denominator;
+	return(coVal <= paramVal);
+}
+bool Fraction::operator>(const Fraction & f)const{
+	int coVal = numerator * f.denominator;
+	int paramVal =  f.numerator * denominator;
+	return(coVal > paramVal);
+}
+bool Fraction::operator>=(const Fraction & f)const{
+	int coVal = numerator * f.denominator;
+	int paramVal =  f.numerator * denominator;
+	return(coVal >= paramVal);
+}
+
 std::ostream & operator<<( std::ostream & os, const Fraction & f){
        os << f.numerator << "/" << f.denominator;
        return os;

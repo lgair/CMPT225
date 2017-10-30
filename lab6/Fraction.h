@@ -15,6 +15,12 @@ public:
        
        // Overloaded comparison operators
        // ==, !=, <, <=, >, >=
+       bool operator==(const Fraction & f)const;
+       bool operator!=(const Fraction & f)const;
+       bool operator<(const Fraction & f)const;
+       bool operator<=(const Fraction & f)const;
+       bool operator>(const Fraction & f)const;
+       bool operator>=(const Fraction & f)const;
 
 private:
        int numerator; //the "top" of the fraction
