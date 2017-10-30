@@ -8,8 +8,6 @@ class WordFrequency
 public:
 	WordFrequency();// Default Constructor
 	WordFrequency(string word);// Copy Constructor
-	~WordFrequency();// Destructor
-	WordFrequency & operator=(WordFrequency obj); //Overloaded Assignment operator
 
 	//Accessors and Mutators
 

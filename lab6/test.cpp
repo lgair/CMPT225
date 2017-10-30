@@ -13,4 +13,6 @@ int main(){
 	cout << fr1 <<" <= " << fr2 << endl << (fr1 <= fr2? "true" : "False") << endl;
 	cout << fr1 <<" > " << fr2 << endl << (fr1 > fr2? "true" : "False") << endl;
 	cout << fr1 <<" >= " << fr2 << endl << (fr1 >= fr2? "true" : "False") << endl;
+	Fraction fr3(5,0);
+	cout << fr3 << endl;
 }
