@@ -5,7 +5,7 @@ using namespace std;
 
 //default constructor
 WordFrequency::WordFrequency(void){
-	string word = 0;
+	string word = "";// should be empy string
 	frequency = 1;
 }
 //copy constructor
