@@ -2,6 +2,7 @@
 #include <string>
 #include <stddef.h>
 #include "HashTable.h"
+#include <cmath>
 using namespace std;
 
 //Constructors and Destructors
@@ -49,4 +50,12 @@ WordFrequency *HashTable::dump()const{
 //Utility Function
 void HashTable::Deep_copy(const HashTable & obj){
 	//Implement Deep Copy here
+}
+int HashTable::HashValue(string str){
+	int hash = 0;
+	for(int i = 0; i < str.length(); i++){
+		int asc = str[i] - 96;
+		hash += asc*pow(32, n-(i+1));
+	}
+	return hash;
 }

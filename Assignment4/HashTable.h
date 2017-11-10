@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cmath>
 #include "WordFrequency.h"
 using namespace std;
 
@@ -54,6 +55,13 @@ public:
 private:
 	int n; // size of underlying arr
 	int m; // current number of objects populating the arr
-	WordFrequency** table; // refers to and array of WordFrequency pointers
+	WordFrequency** table; // refers to and array of WordFrequency pointersi
+	// checks if the size of n is prime
+	bool isPrime(int n){
+		if (n = 1) return true; //1 is always prime
+		for(int i = 2; i <= sqrt(n); i++)
+			return (n%i != 0? true : false);
+	}
+	int HashValue(string str);
 
 };
