@@ -16,6 +16,18 @@ HashTable::HashTable(const HashTable & obj){
 	// Implement overloaded assignment here
 //}
 
+void HashTable::insert(string input){
+	
+}
+
+int HashTable::search(string findThis){
+	bool found = false;
+	//if (findThis == found)
+	//	return getFrequency();
+	//else
+		return 0;
+}
+
 int HashTable::size()const{
 	return m;
 }
@@ -30,8 +42,8 @@ double HashTable::loadFactor()const{
 	return (alpha < MAX ? alpha : -1);
 }
 
-WordFrequency HashTable::dump()const{
-	return table;
+WordFrequency *HashTable::dump()const{
+	return *table;
 }
 
 //Utility Function
