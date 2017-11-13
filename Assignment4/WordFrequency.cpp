@@ -14,6 +14,11 @@ WordFrequency::WordFrequency(string inWord){
 	frequency = 1;
 }
 
+WordFrequency::WordFrequency(string inWord, int freq){
+	string word = inWord;
+	frequency = freq;
+}
+
 //--------------Accessors and Mutators----------------
 void WordFrequency::increment(){
 	frequency++;

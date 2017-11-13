@@ -13,7 +13,7 @@ public:
 	HashTable(int size);// Constructor
 	HashTable(const HashTable & obj); // copy constructor
 	~HashTable();// Destructor
-//	HashTable & operator=(Hashtable obj);//overloaded assignment operator
+	HashTable & operator=(const HashTable& obj);//overloaded assignment operator
 
 	//---------- Accessor and Mutator methods ----------
 
@@ -58,10 +58,15 @@ private:
 	WordFrequency** table; // refers to and array of WordFrequency pointersi
 	// checks if the size of n is prime
 	bool isPrime(int n){
-		if (n = 1) return true; //1 is always prime
-		for(int i = 2; i <= sqrt(n); i++)
-			return (n%i != 0? true : false);
+		bool prime = true;
+		if (n == 1) return true;
+		for(int i = 2; i <= sqrt(n); i++){
+			prime = ((n%i != 0) ? true : false);
+			if(!prime) return false;
+		}
+		return prime;
 	}
+	int findPrime(int n);
 	int HashValue(string str);
 
 };

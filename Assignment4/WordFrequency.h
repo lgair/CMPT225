@@ -7,7 +7,8 @@ class WordFrequency
 {
 public:
 	WordFrequency();// Default Constructor
-	WordFrequency(string word);// Copy Constructor
+	WordFrequency(string word);//Copy Consructors
+	WordFrequency(string word, int freq);
 
 	//Accessors and Mutators
 
