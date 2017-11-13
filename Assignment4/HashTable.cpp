@@ -34,32 +34,41 @@ HashTable& HashTable::operator=(const HashTable& obj){
 }
 
 void HashTable::insert(string input){
+	int key = 0;
+	int freq = 0;
+	int jump = 0;
+	int quad =  0;
 	double alpha = 0; //load factor
+	
 	alpha = loadFactor();
 	if(alpha = -1){//load factor exceeded, resize array
-		n += n;
+		n += n;//Total occupancy of the array should stay the same
 		n = findPrime(n);
-		HashTable(n);
-		for (int i = 0; i < m; i++){
-			for (int j = 0; j < n; j++){
-				table[j] = table[i];
+		// Re-Hashing of the object
+		for (int j = 0; j < n; j++){
+			if (table[j] != NULL){
+				key = HashValue(table[j]->getWord());
+				table[key] = table[j];
 			}
 		}
-		// rehash table?
-	}	
-	int freq = search(input);
-	//string not in table, insert at key value
+	}
+
+	freq = search(input);
+	key = HashValue(input);	
 	if (freq == 0){
+		table[key] = new WordFrequency(input);
+		table[key]->increment();
 	}
 	//string in table one or more times insert via quadratic probing, 
 	else if(freq <= 1){
-		int i = 1;
-		for(int q = 0; q < n; q = pow(i,2)){
-			++i;
-			if( table[q] == NULL ){ 
-			//	insert;
+		for(int i = 0; i < n; i = i++){
+			quad = pow((i), 2);
+			jump = key + quad;
+			if( table[jump] == NULL ){ 
+				table[jump] = new WordFrequency(input);
 			}
 		}
+		table[key]->increment();
 	}
 }
 
