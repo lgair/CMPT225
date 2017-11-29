@@ -5,24 +5,24 @@
 
 using namespace std; 
 
-//template <class T>
+template <class T>
 class PriorityQueue {
 private:
-	int * arr; 
+	T * arr; 
 	int queueSize; 
 	int arrSize; 
 
 	//PRE: N/A
 	//PARAM:arr = arr of template variables n = size of array
 	//POST: heapifies array of template variables
-	int heapify(int * arr, int size){
+	void heapify(T * arr, int size){
 		for (int i = size/2-1; i >= 0; i--){
 			maxHeapify(arr, size, i);
 		}
 	}
 
 	//MAX heapify methood -- essentially bubbledown
-	int maxHeapify(int *arr, int size, int i) {
+	void maxHeapify(T *arr, int size, int i) {
 		int parent = i;
 		int leftChild = 2*i+1;
 		int rightChild = 2*i+2;
@@ -35,13 +35,12 @@ private:
 		}
 		if(parent != i){
 			std::swap(arr[parent], arr[i]);
-			cout << "recursing" << endl;
 			maxHeapify(arr,  size, parent);
 		}
 	}
 
 	//helper function to print out the arr
-	void arrPrint(int *arr, int size){
+	void arrPrint(T *arr, int size){
 		for (int i = 0; i < size; i++){
 			cout << arr[i]<<",";
 		}
@@ -50,30 +49,30 @@ private:
 public:
 	//Constructors
 	PriorityQueue(); 
-	PriorityQueue(int vars[] , int size); 
-	PriorityQueue(const PriorityQueue & obj); 
+	PriorityQueue(T vars[] , int size); 
+	PriorityQueue(const PriorityQueue<T> & obj); 
 	//Destructor
 	~PriorityQueue(); 
 	//Overloaded Assignment Operator
-	PriorityQueue & operator = (const PriorityQueue & obj); 
+	PriorityQueue<T> & operator = (const PriorityQueue<T> & obj); 
 
 	//------------------Data methods----------------------
 
 	//PRE:
 	//PARAM: data = template variable to insert
 	//POST: inserts into ADT and maintains MAXHEAP properties
-	void insert(int data); 
+	void insert(T data); 
 
 	//PRE: obj exists
 	//PARAM: N/A
 	//POST: Extracts value with highest priority and ensures max heap
 	//properties are maintaned
-	int remove(); 
+	T remove(); 
 
 	//PRE: object initailized
 	//PARAM: N/A
 	//POST: returns item in the heap with the highest priority
-	int peek()const; //done
+	T peek()const; //done
 
 	//PRE: object initialized
 	//PARAM:N/A
@@ -93,18 +92,18 @@ public:
 	//PRE: Object initailized
 	//POST: sorts the heap
 	//PARAM; arr = arr to sort, size = ArrSize
-	void sort(int *arr, int n); 
+	void sort(T *arr, int n); 
 
 	//PRE: object initialized
 	//PARAM: N/A
 	//POST: Returns pointer to PriorityQueue's underlying arr
-	int *contents() const; //done
+	T *contents() const; //done
 
 	//---------------------utility---------------------------
 	void bubbleup(int i);
 	void swapAtIndex(int i, int j);
 	void bubbleDown(int i);
-	void deepCopy(const PriorityQueue &obj);
+	void deepCopy(const PriorityQueue<T> &obj);
 	int printHeap(int i) const;
 	
 	//PRE: Object exists
@@ -114,25 +113,28 @@ public:
 };
 
 //Constructors
-PriorityQueue::PriorityQueue() : arrSize(4), queueSize(0), arr(new int[arrSize]) {}
-PriorityQueue::PriorityQueue(int vars[], int n){
-	arrSize = 2 * n;
+template <class T>
+PriorityQueue<T>::PriorityQueue() : arrSize(4), queueSize(0), arr(new T[arrSize]){}
+template <class T>
+PriorityQueue<T>::PriorityQueue(T vars[], int n){
+	arrSize = n;
 	queueSize = n;
-	arr = new int[n];
+	arr = new T[n];
 	for (int i = 0; i < n; i++){
-		cout <<"constrFlag" << endl;
-		insert(vars[i]); //segfault
-		//cout << i << endl;
+		arr[i] = vars[i]; //segfault
 	}
+	heapify(arr,n);
 }
 
 //Copy Constructor
-PriorityQueue::PriorityQueue(const PriorityQueue &obj){
+template <class T>
+PriorityQueue<T>::PriorityQueue(const PriorityQueue<T> &obj){
 	deepCopy(obj);
 }
 
 //Overlaoded assignment operator
-PriorityQueue &PriorityQueue::operator=(const PriorityQueue &obj){
+template <class T>
+PriorityQueue<T> &PriorityQueue<T>::operator=(const PriorityQueue<T> &obj){
 	if (this != &obj){
 		delete[] arr;
 		deepCopy(obj);
@@ -141,17 +143,18 @@ PriorityQueue &PriorityQueue::operator=(const PriorityQueue &obj){
 }
 
 //Destructor
-//template <class T>
-PriorityQueue::~PriorityQueue() { delete[] arr; }
+template <class T>
+PriorityQueue<T>::~PriorityQueue() { delete[] arr; }
 
-//template <class T>
-void PriorityQueue::insert(int data){
+//insert
+template <class T>
+void PriorityQueue<T>::insert(T data){
 	if (queueSize == arrSize){
 		arrSize += arrSize;
-		int *temp = new int[arrSize];
+		T *temp = new T[arrSize];
 		for (int i = 0; i < arrSize; i++)
 			temp[i] = arr[i];
-		arr = new int[arrSize];
+		arr = new T[arrSize];
 		for (int j = 0; j < arrSize; j++)
 			arr[j] = temp[j];
 		delete[] temp;
@@ -161,54 +164,62 @@ void PriorityQueue::insert(int data){
 	bubbleup(queueSize - 1);
 }
 
-int PriorityQueue::remove(){
+template <class T>
+T PriorityQueue<T>::remove(){
 	if (empty()){throw std::runtime_error("Empty array");}
-	else{	
-		int root = arr[0]; //root should be largest value in the queue
+	else{		
+		T root = arr[0]; //root should be largest value in the queue
 		arr[0] = arr[queueSize - 1];
 		queueSize--;
 		bubbleDown(0);
 		return root;
 	}
 }
-
-int PriorityQueue::peek() const{
+template <class T>
+T PriorityQueue<T>::peek() const{
 	if (!empty()){return arr[0];}
 	else{throw std::runtime_error("Empty array");} //try catch block?
 }
 
 //Getters
-int PriorityQueue::size() const { return queueSize; }
-int PriorityQueue::maxSize() const { return arrSize; }
+template <class T>
+int PriorityQueue<T>::size() const { return queueSize; }
+template <class T>
+int PriorityQueue<T>::maxSize() const { return arrSize; }
 
 //isEmpty test
-bool PriorityQueue::empty() const { return (queueSize == 0); }
+template <class T>
+bool PriorityQueue<T>::empty() const { return (queueSize == 0); }
 
 // in-place sort
-void PriorityQueue::sort(int *arr, int n){
-	//build heap
-	arrPrint(arr,n);
+template <class T>
+void PriorityQueue<T>::sort(T *arr, int n){
 	heapify(arr,n);
+	for(int i = n-1; i >= 0; i--){
+		std::swap(arr[0],arr[i]);
+		maxHeapify(arr, n, 0);
+	}
 	arrPrint(arr,n);
 }
 
 //direct access to private variable
-//template <class T>
-int *PriorityQueue::contents() const { return arr; }
+template <class T>
+T *PriorityQueue<T>::contents() const { return arr; }
 
 //Utility
-void PriorityQueue::bubbleup(int i){
+template <class T>
+void PriorityQueue<T>::bubbleup(int i){
 	int leftChild = i;
 	int rightChild = i + 1;
 	int parent = (i - 1) / 2;
 	if (leftChild > 0 && arr[leftChild] > arr[parent]){
-		swapAtIndex(leftChild, parent);
-		cout << endl;
+		std::swap(arr[leftChild],arr[parent]);
 		bubbleup(parent);
 	}
 }
 
-void PriorityQueue::bubbleDown(int i) {
+template <class T>
+void PriorityQueue<T>::bubbleDown(int i) {
  	int parent = i;
 	int leftChild = 2*i+1;
 	int rightChild = 2*i+2;
@@ -219,27 +230,29 @@ void PriorityQueue::bubbleDown(int i) {
 		parent = rightChild;
 	}//check children and swap to correct places
 	if(parent != i){ 
-		cout <<"swapping: "<<arr[leftChild]<<"<->"<<arr[rightChild]<<endl;
-		swapAtIndex(parent, i);
-		cout << "recursing" << endl;
+	//	cout <<"swapping: "<<arr[leftChild]<<"<->"<<arr[rightChild]<<endl;
+		std::swap(arr[parent], arr[i]);
+	//	cout << "recursing" << endl;
 		bubbleDown(parent);
 	}
 }
 
 // standard swap function
-void PriorityQueue::swapAtIndex(int i, int j){
+template <class T>
+void PriorityQueue<T>::swapAtIndex(int i, int j){
 	int temp = arr[i];
 	arr[i] = arr[j];
 	arr[j] = temp;
 }
 
 //checks if the heap property is preserved
-bool PriorityQueue::isHeap(int i) const{
+template <class T>
+bool PriorityQueue<T>::isHeap(int i) const{
 	int leftChild = 2*i+1;
 	int rightChild = 2*i+2;
 	int parent = i;
 	if (leftChild > queueSize - 1){return true;} //parent has no children
-	else if (rightChild > queueSize - 1){ // checks node with only left children
+	else if (rightChild > queueSize - 1){//checks node with only left children
 		return arr[parent] > arr[leftChild];
 	}
 	//parent has two children
@@ -252,10 +265,12 @@ bool PriorityQueue::isHeap(int i) const{
 		}
 	}
 }
-void PriorityQueue::deepCopy(const PriorityQueue &obj){
+//Helper to copy constructor and overloaded assignment operator
+template <class T>
+void PriorityQueue<T>::deepCopy(const PriorityQueue<T> &obj){
 	queueSize = obj.queueSize;
 	arrSize = obj.arrSize;
-	arr = new int[arrSize];
+	arr = new T[arrSize];
 	for (int i = 0; i < queueSize; i++){arr[i] = obj.arr[i];}
 }
 
